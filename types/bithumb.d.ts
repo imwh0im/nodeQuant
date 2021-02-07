@@ -34,7 +34,8 @@ interface ITicker {
 }
 
 interface IBalanceData {
-  total_btc: string;
+  total_btc?: string;
+  total_ada?: string;
   total_krw: string;
   in_use_btc: string;
   in_use_krw: string;
@@ -73,7 +74,7 @@ export interface IMarketOrder {
 
 export interface IGetBalance {
   status: string;
-  data: IBalanceData;
+  data: IBalanceData | any;
 }
 
 export interface IGetTransactionHistory {

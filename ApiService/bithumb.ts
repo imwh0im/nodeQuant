@@ -112,18 +112,23 @@ export default class bithumbApi {
     const headers = Util.getBitHumbHeaders(endpoint, parameters, this.api_key, this.secret_key);
 
     console.log("sell");
-    const res: IMarketOrder = await request({
-      method: "POST",
-      url: this.api_url+endpoint,
-      formData: parameters,
-      headers: headers,
-      json: true,
-    });
-
+    let res: IMarketOrder;
+    try{
+      res = await request({
+        method: "POST",
+        url: this.api_url+endpoint,
+        formData: parameters,
+        headers: headers,
+        json: true,
+      });
+    } catch (err) {
+      return false;
+    }
+    
     console.log(res);
     if (res.status !== "0000") {
-      return false
+      return false;
     }
-    return true
+    return true;
   }
 }

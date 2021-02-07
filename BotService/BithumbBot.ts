@@ -1,3 +1,4 @@
+import { parse } from "ts-node";
 import bithumbApi from "../ApiService/bithumb";
 import UtilService from "../UtilService/utilService";
 
@@ -32,7 +33,7 @@ export default class BithumbBot {
       k = this.util.getKValue(last_last_price, last_low_price, last_start_price, last_low_price);
     }
 
-    console.log(`check2: \n k: ${k}`);
+    console.log(`check2: \n ${coin_code} k: ${k}`);
 
     if (!last_start_price || !last_last_price || !last_high_price || !last_low_price || !k) {
       throw new Error(`candle sticks 가 없습니다. `);
@@ -44,17 +45,24 @@ export default class BithumbBot {
     const transaction_history = transaction_historys.data.pop();
     const now_price = transaction_history ? transaction_history.price : last_last_price;
 
-    console.log(`check3:\n average: ${average}, 목표가: ${goal_price}, 현재가: ${now_price}`)
+    console.log(`check3:\n ${coin_code} average: ${average}, 목표가: ${goal_price}, 현재가: ${now_price}`)
 
     if (goal_price > now_price) {
       return false;
     }
-    console.log("is Buyed!!");
+
     const buy_price_coin_count = await this.util.getBuyCoinCount(coin_code, buy_price);
+    const balance = await this.bitApi.getBalance(coin_code);
+    const has_coin_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
+    // 이미 구매를 한 경우 구입하지 않는다. 
+    if (has_coin_count >= buy_price_coin_count) {
+      return false;
+    }
     console.log("buy_price_coin_count", buy_price_coin_count);
+    console.log("is Buyed!!");
     const buy_result = await this.bitApi.marketBuy(coin_code, buy_price_coin_count);
 
-    console.log(`check4:\n 구매여부: ${buy_result}, 구매갯수: ${buy_price_coin_count}`);
+    console.log(`check4:\n ${coin_code} 구매여부: ${buy_result}, 구매갯수: ${buy_price_coin_count}`);
 
     if (!buy_result) {
       return false;
@@ -64,11 +72,10 @@ export default class BithumbBot {
 
   public async volatilityBreakthroughsellAllCoin(coin_code: string) {
     const balance = await this.bitApi.getBalance(coin_code);
-    const has_coin_count = Number(balance.data.total_btc).toFixed(4);
-    console.log(has_coin_count);
-    if (Number(has_coin_count) >= 0.0001) {
-      const result = await this.bitApi.marketSell(coin_code, Number(has_coin_count));
-      console.log("sell result: ", result);
-    }
+    const order_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
+
+    console.log(order_count);
+    const result = await this.bitApi.marketSell(coin_code, order_count);
+    console.log(`${coin_code} sell result: ${result}`);
   }
 }

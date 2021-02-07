@@ -3,6 +3,7 @@ import bithumbApi from "../../ApiService/bithumb";
 import moment from "moment";
 import UtilService from "../../UtilService/utilService";
 import BithumbBot from "../../BotService/BithumbBot";
+import { util } from "config";
 
 const BitApi = new bithumbApi();
 const Util = new UtilService();
@@ -107,13 +108,19 @@ test.skip("getKValue", () => {
   console.log(Util.getKValue(12958000, 12958000, 12958000, 12958000));
 });
 
-test.skip("marketBuy", async () => {
-  const res = await BitApi.marketBuy("BTC", 0.00001);
+test("marketBuy", async () => {
+  const order_count = await Util.getBuyCoinCount("EOS", 10000);
+  const res = await BitApi.marketBuy("EOS", parseFloat(order_count.toString()));
   console.log(res)
 });
 
-test.skip("marketSell", async () => {
-  const res = await BitApi.marketSell("BTC", 0.0001);
+test("marketSell", async () => {
+  const balance = await BitApi.getBalance("EOS");
+  console.log("Res: ", JSON.stringify(balance));
+  const total_coin = Number(balance.data.total_eos) || 0;
+  const order_count = Math.floor(total_coin*10000)/10000;
+  console.log(order_count);
+  const res = await BitApi.marketSell("EOS", order_count);
   console.log(res)
 });
 
@@ -126,10 +133,6 @@ test.skip("getBuyCoinCount", async () => {
   const result = await Util.getBuyCoinCount("BTC", 10000);
 })
 
-test.skip("botTest", async () => {
-  console.log(await BitBot.volatilityBreakthrough("BTC", 2000, "1m"));
-})
-
 test.skip("buyTest", async () => {
   const buy_result = await BitApi.marketBuy("BTC", 0.0001);
   console.log(buy_result);
@@ -140,7 +143,7 @@ test.skip("sellTest", async () => {
   console.log(buy_result);
 })
 
-test("buy count", async () => {
+test.skip("buy count", async () => {
   const buy_price_coin_count = await Util.getBuyCoinCount("BTC", 10000);
   console.log(buy_price_coin_count);
 })
