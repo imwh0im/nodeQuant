@@ -60,6 +60,8 @@ export default class bithumbApi {
     if (res.status !== "0000") {
       throw new Error(`에러발생: ${res}`);
     }
+    res.data.pop()
+
     return res;
   }
 

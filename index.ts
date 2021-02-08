@@ -10,86 +10,100 @@ async function sleep (ms: number) {
   });
 }  
 
-// BTC 10m 봉
+// BTC 30m 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BTC 10m Buy running bot`);
-  await bitBot.volatilityBreakthroughBuyBot("BTC", 10000, "10m");
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BTC 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("BTC", 20000, "30m");
 });
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BTC 10m Sell running bot`);
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BTC 30m Sell running bot`);
   await bitBot.volatilityBreakthroughsellAllCoin("BTC");
 });
 
-// ETH 10m 봉
+// ETH 30m 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ETH 10m Buy running bot`);
-  await bitBot.volatilityBreakthroughBuyBot("ETH", 10000, "10m");
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ETH 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("ETH", 20000, "30m");
 });
  
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ETH 10m Sell running bot`);
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ETH 30m Sell running bot`);
   await bitBot.volatilityBreakthroughsellAllCoin("ETH");
 });
 
-// ADA 10m 봉
+// ADA 30m 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ADA 10m Buy running bot`);
-  await bitBot.volatilityBreakthroughBuyBot("ADA", 10000, "10m");
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ADA 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("ADA", 20000, "30m");
 });
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ADA 10m Sell running bot`);
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ADA 30m Sell running bot`);
   await bitBot.volatilityBreakthroughsellAllCoin("ADA");
 });
 
-// XRP 10m 봉
+// XRP 30m 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XRP 10m Buy running bot`);
-  await bitBot.volatilityBreakthroughBuyBot("XRP", 10000, "10m");
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XRP 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("XRP", 20000, "30m");
 });
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XRP 10m Sell running bot`);
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XRP 30m Sell running bot`);
   await bitBot.volatilityBreakthroughsellAllCoin("XRP");
 });
 
-// XLM 10m 봉
+// XLM 30m 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XLM 10m Buy running bot`);
-  await bitBot.volatilityBreakthroughBuyBot("XLM", 10000, "10m");
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XLM 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("XLM", 20000, "30m");
 });
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XLM 10m Sell running bot`);
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XLM 30m Sell running bot`);
   await bitBot.volatilityBreakthroughsellAllCoin("XLM");
 });
 
-// EOS 10m 봉
+// EOS 30m 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} EOS 10m Buy running bot`);
-  await bitBot.volatilityBreakthroughBuyBot("EOS", 10000, "10m");
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} EOS 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("EOS", 20000, "30m");
 });
 
-cron.schedule("*/10 * * * *", async () => {
+cron.schedule("*/30 * * * *", async () => {
   const bitBot = new BithumbBot();
-  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} EOS 10m Sell running bot`);
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} EOS 30m Sell running bot`);
   await bitBot.volatilityBreakthroughsellAllCoin("EOS");
+});
+
+// BCH 30m 봉
+
+cron.schedule("*/1 * * * *", async () => {
+  const bitBot = new BithumbBot();
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BCH 30m Buy running bot`);
+  await bitBot.volatilityBreakthroughBuyBot("BCH", 20000, "30m");
+});
+
+cron.schedule("*/30 * * * *", async () => {
+  const bitBot = new BithumbBot();
+  console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BCH 30m Sell running bot`);
+  await bitBot.volatilityBreakthroughsellAllCoin("BCH");
 });

@@ -20,8 +20,9 @@ test.skip("getTicker", async () => {
   console.log(JSON.stringify(ticker));
 });
 
-test.skip("getCandleStick", async () => {
-  const res = await BitApi.getCandleStick("BTC", "12h");
+test("getCandleStick", async () => {
+  const res = await BitApi.getCandleStick("BTC", "30m");
+  console.log(res);
   const data = res.data;
 
   const first_res_date = moment.unix(res.data[0][0] / 1000 as number).format("YYYY-MM-DD HH:mm:ss");
@@ -108,19 +109,19 @@ test.skip("getKValue", () => {
   console.log(Util.getKValue(12958000, 12958000, 12958000, 12958000));
 });
 
-test("marketBuy", async () => {
-  const order_count = await Util.getBuyCoinCount("EOS", 10000);
-  const res = await BitApi.marketBuy("EOS", parseFloat(order_count.toString()));
+test.skip("marketBuy", async () => {
+  const order_count = await Util.getBuyCoinCount("BCH", 10000);
+  const res = await BitApi.marketBuy("BCH", parseFloat(order_count.toString()));
   console.log(res)
 });
 
-test("marketSell", async () => {
-  const balance = await BitApi.getBalance("EOS");
+test.skip("marketSell", async () => {
+  const balance = await BitApi.getBalance("BCH");
   console.log("Res: ", JSON.stringify(balance));
-  const total_coin = Number(balance.data.total_eos) || 0;
+  const total_coin = Number(balance.data.total_bch) || 0;
   const order_count = Math.floor(total_coin*10000)/10000;
   console.log(order_count);
-  const res = await BitApi.marketSell("EOS", order_count);
+  const res = await BitApi.marketSell("BCH", order_count);
   console.log(res)
 });
 
