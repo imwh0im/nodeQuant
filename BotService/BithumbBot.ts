@@ -55,7 +55,7 @@ export default class BithumbBot {
     const balance = await this.bitApi.getBalance(coin_code);
     const has_coin_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
     // 이미 구매를 한 경우 구입하지 않는다. 
-    if (has_coin_count >= buy_price_coin_count) {
+    if (has_coin_count+(has_coin_count*1.1) >= buy_price_coin_count) {
       return false;
     }
     console.log("buy_price_coin_count", buy_price_coin_count);
