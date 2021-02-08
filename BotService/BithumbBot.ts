@@ -1,4 +1,3 @@
-import { parse } from "ts-node";
 import bithumbApi from "../ApiService/bithumb";
 import UtilService from "../UtilService/utilService";
 
@@ -6,21 +5,11 @@ export default class BithumbBot {
   private bitApi = new bithumbApi();
   private util = new UtilService();
 
-  public async volatilityBreakthroughBuyBot(coin_code: string, buy_price: number, time: string) {
-    // const balance = await this.bitApi.getBalance(coin_code);
-    // const has_coin_count = Number(balance.data.total_btc);
-    // if (has_coin_count >= 0.0001) {
-    //   const result = await this.bitApi.marketSell(coin_code, 0.0002);
-    //   console.log("sell result: ", result);
-    // }
-
-    // console.log(`check1:\n has_coin_count: ${has_coin_count}`);
-    
+  public async volatilityBreakthroughBuyBot(coin_code: string, buy_price: number, time: "1m" | "3m" | "5m" | "10m" | "30m" | "1h" | "6h" | "12h" | "24h") {
     let last_start_price: number|undefined;
     let last_last_price: number|undefined;
     let last_high_price: number|undefined;
     let last_low_price: number|undefined;
-
     let k: number|undefined;
 
     const candle_sticks = await this.bitApi.getCandleStick(coin_code, time);
@@ -29,10 +18,8 @@ export default class BithumbBot {
       last_last_price = chart[2] as number;  // 종가
       last_high_price = chart[3] as number;  // 고가
       last_low_price = chart[4] as number; // 저가
-
       k = this.util.getKValue(last_last_price, last_low_price, last_start_price, last_low_price);
     }
-
     console.log(`check2: \n ${coin_code} k: ${k}`);
 
     if (!last_start_price || !last_last_price || !last_high_price || !last_low_price || !k) {
@@ -44,7 +31,6 @@ export default class BithumbBot {
     const transaction_historys = await this.bitApi.getTransactionHistory(coin_code);
     const transaction_history = transaction_historys.data.pop();
     const now_price = transaction_history ? transaction_history.price : last_last_price;
-
     console.log(`check3:\n ${coin_code} average: ${average}, 목표가: ${goal_price}, 현재가: ${now_price}`)
 
     if (goal_price > now_price) {
@@ -58,10 +44,8 @@ export default class BithumbBot {
     if (has_coin_count+(has_coin_count*1.1) >= buy_price_coin_count) {
       return false;
     }
-    console.log("buy_price_coin_count", buy_price_coin_count);
-    console.log("is Buyed!!");
-    const buy_result = await this.bitApi.marketBuy(coin_code, buy_price_coin_count);
 
+    const buy_result = await this.bitApi.marketBuy(coin_code, buy_price_coin_count);
     console.log(`check4:\n ${coin_code} 구매여부: ${buy_result}, 구매갯수: ${buy_price_coin_count}`);
 
     if (!buy_result) {
@@ -73,8 +57,6 @@ export default class BithumbBot {
   public async volatilityBreakthroughsellAllCoin(coin_code: string) {
     const balance = await this.bitApi.getBalance(coin_code);
     const order_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
-
-    console.log(order_count);
     const result = await this.bitApi.marketSell(coin_code, order_count);
     console.log(`${coin_code} sell result: ${result}`);
   }

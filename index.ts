@@ -4,13 +4,7 @@ import moment from "moment";
 
 
 
-async function sleep (ms: number) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}  
-
-// BTC 6h 봉
+// BTC 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
@@ -24,7 +18,7 @@ cron.schedule("0 */6 * * *", async () => {
   await bitBot.volatilityBreakthroughsellAllCoin("BTC");
 });
 
-// ETH 6h 봉
+// ETH 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
@@ -38,7 +32,7 @@ cron.schedule("0 */6 * * *", async () => {
   await bitBot.volatilityBreakthroughsellAllCoin("ETH");
 });
 
-// ADA 6h 봉
+// ADA 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
@@ -52,7 +46,7 @@ cron.schedule("0 */6 * * *", async () => {
   await bitBot.volatilityBreakthroughsellAllCoin("ADA");
 });
 
-// XRP 6h 봉
+// XRP 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
@@ -66,7 +60,7 @@ cron.schedule("0 */6 * * *", async () => {
   await bitBot.volatilityBreakthroughsellAllCoin("XRP");
 });
 
-// XLM 6h 봉
+// XLM 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
@@ -80,7 +74,7 @@ cron.schedule("0 */6 * * *", async () => {
   await bitBot.volatilityBreakthroughsellAllCoin("XLM");
 });
 
-// EOS 6h 봉
+// EOS 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
@@ -94,7 +88,7 @@ cron.schedule("0 */6 * * *", async () => {
   await bitBot.volatilityBreakthroughsellAllCoin("EOS");
 });
 
-// BCH 6h 봉
+// BCH 봉
 
 cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
