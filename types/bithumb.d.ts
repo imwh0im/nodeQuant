@@ -52,6 +52,20 @@ interface ITransactionHistory {
   total: string;
 }
 
+interface IPrivateTransactions {
+  search: string;
+  transfer_data: number;
+  order_currency: string;
+  payment_currency: string;
+  units: string;
+  price: string;
+  amount: string;
+  fee_currency: string;
+  fee: string;
+  order_balance: string;
+  payment_balance: string;
+}
+
 export interface IGetOrderBook {
     status: string;
     data: IGetOrderBookData
@@ -80,4 +94,9 @@ export interface IGetBalance {
 export interface IGetTransactionHistory {
   status: string;
   data: ITransactionHistory[];
+}
+
+export interface IGetPrivateTransactions {
+  status: string;
+  data: IPrivateTransactions[];
 }

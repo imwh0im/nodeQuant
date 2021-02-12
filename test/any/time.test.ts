@@ -10,8 +10,12 @@ function nonce() {
   return Number(String(sec) + String(usec))
 }
 
-test("test",() => {
+test.skip("test",() => {
   setInterval(async () => {
     console.log(moment(nonce()).format("YYYY-MM-DD HH:mm:ss"));
   }, 10000);
+})
+
+test("moment", () =>{
+  console.log(moment().format("mm"));
 })

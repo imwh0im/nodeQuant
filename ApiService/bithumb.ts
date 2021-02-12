@@ -1,5 +1,5 @@
 import request from "request-promise";
-import { IGetOrderBook, IGetTicker, IGetCandleStick, IMarketOrder, IGetTransactionHistory, IGetBalance } from "../types/bithumb";
+import { IGetOrderBook, IGetTicker, IGetCandleStick, IMarketOrder, IGetTransactionHistory, IGetBalance, IGetPrivateTransactions } from "../types/bithumb";
 import config from "config";
 import UtilService from "../UtilService/utilService";
 
@@ -84,6 +84,27 @@ export default class bithumbApi {
     }
     return res;
 
+  }
+
+  public async getPrivateTransactions(coin_code: string) {
+    const Util = new UtilService();
+    const endpoint = "/info/user_transactions";
+    const searchGb = 1; // 매수 완료
+    const parameters = { searchGb, order_currency: coin_code, payment_currency: this.payment_currency, }
+    const headers = Util.getBitHumbHeaders(endpoint, parameters, this.api_key, this.secret_key);
+
+    const res: IGetPrivateTransactions = await request({
+      method: "POST",
+      url: "https://api.bithumb.com/info/user_transactions",
+      formData: parameters,
+      headers: headers,
+      json: true
+    })
+
+    if (res.status !== "0000") {
+      throw new Error(JSON.stringify(res));
+    }
+    return res;
   }
 
   public async marketBuy(coin_code: string, until_price: number) {

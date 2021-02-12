@@ -3,7 +3,6 @@ import bithumbApi from "../../ApiService/bithumb";
 import moment from "moment";
 import UtilService from "../../UtilService/utilService";
 import BithumbBot from "../../BotService/BithumbBot";
-import { util } from "config";
 
 const BitApi = new bithumbApi();
 const Util = new UtilService();
@@ -20,7 +19,7 @@ test.skip("getTicker", async () => {
   console.log(JSON.stringify(ticker));
 });
 
-test("getCandleStick", async () => {
+test.skip("getCandleStick", async () => {
   const res = await BitApi.getCandleStick("BTC", "30m");
   console.log(res);
   const data = res.data;
@@ -147,4 +146,8 @@ test.skip("sellTest", async () => {
 test.skip("buy count", async () => {
   const buy_price_coin_count = await Util.getBuyCoinCount("BTC", 10000);
   console.log(buy_price_coin_count);
+})
+
+test("transaction", async () => {
+  console.log(await BitBot.volatilityBreakthroughStopLose("BTC"));
 })

@@ -1,3 +1,4 @@
+import { reverse } from "dns";
 import bithumbApi from "../ApiService/bithumb";
 import UtilService from "../UtilService/utilService";
 
@@ -41,7 +42,7 @@ export default class BithumbBot {
     const balance = await this.bitApi.getBalance(coin_code);
     const has_coin_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
     // 이미 구매를 한 경우 구입하지 않는다. 
-    if (has_coin_count+(has_coin_count*1.1) >= buy_price_coin_count) {
+    if (has_coin_count+(has_coin_count*0.1) >= buy_price_coin_count) {
       return false;
     }
 
@@ -59,5 +60,22 @@ export default class BithumbBot {
     const order_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
     const result = await this.bitApi.marketSell(coin_code, order_count);
     console.log(`${coin_code} sell result: ${result}`);
+  }
+
+  public async volatilityBreakthroughStopLose(coin_code: string) {
+    const user_transactions = await this.bitApi.getPrivateTransactions(coin_code)
+    const last_user_transaction = user_transactions.data[0];
+    const last_user_transaction_price = Number(last_user_transaction.price);
+    console.log("user_t", last_user_transaction_price);
+
+    const transactions = await this.bitApi.getTransactionHistory(coin_code);
+    const last_transaction = transactions.data[0];
+    const last_transaction_price = Number(last_transaction.price);
+    console.log("all_t", last_transaction_price);
+
+    const revenue = ((last_transaction_price/last_user_transaction_price)-1)*100;
+    if (-2 >= revenue) {
+      await this.volatilityBreakthroughsellAllCoin(coin_code);
+    }
   }
 }
