@@ -10,7 +10,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BTC 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("BTC", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("BTC", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("BTC");
@@ -29,7 +29,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ETH 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("ETH", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("ETH", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("ETH");
@@ -47,7 +47,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} ADA 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("ADA", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("ADA", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("ADA");
@@ -65,7 +65,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XRP 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("XRP", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("XRP", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("XRP");
@@ -83,7 +83,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} XLM 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("XLM", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("XLM", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("XLM");
@@ -101,7 +101,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} EOS 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("EOS", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("EOS", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("EOS");
@@ -119,7 +119,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BCH 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("BCH", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("BCH", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("BCH");
@@ -137,7 +137,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} TRX 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("TRX", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("TRX", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("TRX");
@@ -155,7 +155,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} LTC 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("LTC", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("LTC", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("LTC");
@@ -173,7 +173,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} BSV 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("BSV", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("BSV", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("BSV");
@@ -191,7 +191,7 @@ cron.schedule("*/1 * * * *", async () => {
   const bitBot = new BithumbBot();
   if (!["00", "01", "02"].includes(moment().format("mm"))) {
     console.log(`\n${moment().format("YYYY-MM-DD HH:mm:ss")} LINK 6h Buy running bot`);
-    await bitBot.volatilityBreakthroughBuyBot("LINK", 50000, "6h");  
+    await bitBot.volatilityBreakthroughBuyBot("LINK", 100000, "6h");  
   }
   // 손절 2%
   await bitBot.volatilityBreakthroughStopLose("LINK");
