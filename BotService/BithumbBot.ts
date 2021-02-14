@@ -47,7 +47,7 @@ export default class BithumbBot {
 
     const buy_result = await this.bitApi.marketBuy(coin_code, buy_price_coin_count);
 
-    console.log("buy_bot", {
+    console.log("buy_bot", JSON.stringify({
       coin_code: coin_code,
       k: k,
       average: average,
@@ -55,7 +55,7 @@ export default class BithumbBot {
       now_price: now_price,
       is_buyed: buy_result,
       buy_cnt: buy_result ? buy_price_coin_count : 0,
-    });
+    }));
 
     if (!buy_result) {
       return false;
@@ -67,10 +67,10 @@ export default class BithumbBot {
     const balance = await this.bitApi.getBalance(coin_code);
     const order_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
     const result = await this.bitApi.marketSell(coin_code, order_count);
-    console.log("SellAllCoin", {
+    console.log("SellAllCoin", JSON.stringify({
       coin_code: coin_code, 
       is_selled: result,
-    });
+    }));
   }
 
   public async volatilityBreakthroughStopLose(coin_code: string) {
@@ -82,11 +82,11 @@ export default class BithumbBot {
     const last_transaction = transactions.data[0];
     const last_transaction_price = Number(last_transaction.price);
 
-    console.log("stop lose", {
+    console.log("stop lose", JSON.stringify({
       coin_code: coin_code,
       user_transactions: last_user_transaction_price,
       all_transactions: last_transaction_price,
-    });
+    }));
 
     const revenue = ((last_transaction_price/last_user_transaction_price)-1)*100;
     if (-2 >= revenue) {

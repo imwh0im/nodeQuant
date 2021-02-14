@@ -58,7 +58,7 @@ interface IPrivateTransactions {
   order_currency: string;
   payment_currency: string;
   units: string;
-  price: string;
+  price?: string;
   amount: string;
   fee_currency: string;
   fee: string;
