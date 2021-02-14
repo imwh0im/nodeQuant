@@ -75,6 +75,9 @@ export default class BithumbBot {
 
   public async volatilityBreakthroughStopLose(coin_code: string) {
     const user_transactions = await this.bitApi.getPrivateTransactions(coin_code)
+    if (user_transactions.data.length === 0) {
+      return;
+    }
     const last_user_transaction = user_transactions.data[0];
     const last_user_transaction_price = Number(last_user_transaction.price) || 0;
 
