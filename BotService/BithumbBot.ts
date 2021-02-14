@@ -34,6 +34,13 @@ export default class BithumbBot {
     const now_price = transaction_history ? transaction_history.price : last_last_price;
 
     if (goal_price > now_price) {
+      console.log("buy_bot", JSON.stringify({
+        coin_code: coin_code,
+        k: k,
+        average: average,
+        goal_price: goal_price,
+        now_price: now_price,
+      }));
       return false;
     }
 
