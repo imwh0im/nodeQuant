@@ -121,7 +121,6 @@ export default class bithumbApi {
       json: true,
     });
 
-    console.log("buy", res);
     if (res.status !== "0000") {
       return false
     }
@@ -134,7 +133,6 @@ export default class bithumbApi {
     const parameters = {units: untit_price, order_currency: coin_code, payment_currency: this.payment_currency, endpoint};
     const headers = Util.getBitHumbHeaders(endpoint, parameters, this.api_key, this.secret_key);
 
-    console.log("sell");
     let res: IMarketOrder;
     try{
       res = await request({
@@ -148,7 +146,6 @@ export default class bithumbApi {
       return false;
     }
     
-    console.log(res);
     if (res.status !== "0000") {
       return false;
     }
