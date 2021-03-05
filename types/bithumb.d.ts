@@ -1,6 +1,6 @@
 import { timeStamp } from "console";
 
-interface IOrderBookData {
+interface IGetOrderBookData {
   timestamp: number;
   order_currency: string;
   payment_currency: string;
@@ -68,7 +68,7 @@ interface IPrivateTransactions {
 
 export interface IGetOrderBook {
     status: string;
-    data: IGetOrderBookData
+    data: any;
   }
 
 export interface IGetTicker {

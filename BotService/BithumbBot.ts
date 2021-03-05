@@ -1,11 +1,13 @@
-import { reverse } from "dns";
-import { ConfigSet } from "ts-jest/dist/config/config-set";
 import bithumbApi from "../ApiService/bithumb";
 import UtilService from "../UtilService/utilService";
+import Redis from "ioredis";
 
 export default class BithumbBot {
   private bitApi = new bithumbApi();
   private util = new UtilService();
+  private redis = new Redis({
+    db: 0,
+  })
 
   public async volatilityBreakthroughBuyBot(coin_code: string, buy_price: number, time: "1m" | "3m" | "5m" | "10m" | "30m" | "1h" | "6h" | "12h" | "24h") {
     let last_start_price: number|undefined;
@@ -101,6 +103,36 @@ export default class BithumbBot {
     const revenue = ((last_transaction_price/last_user_transaction_price)-1)*100;
     if (-2 >= revenue) {
       await this.volatilityBreakthroughsellAllCoin(coin_code);
+    }
+  }
+
+  public async buyRandomCoin(buy_price: number) {
+    const order_book = await this.bitApi.getOrderBook("all");
+    delete order_book.data.timestamp;
+    delete order_book.data.payment_currency;
+
+    const coin_list = Object.keys(order_book.data);
+    const random_coin_code = coin_list[Math.floor(Math.random()*coin_list.length)];
+
+    const buy_price_coin_count = await this.util.getBuyCoinCount(random_coin_code, buy_price);
+    const buy_result = await this.bitApi.marketBuy(random_coin_code, buy_price_coin_count);
+
+    await this.redis.set(random_coin_code, buy_price_coin_count);
+
+    if (buy_result) {
+      return true;
+    }
+    return false;
+  }
+
+  public async sellAllCoin() {
+    const coin_code_list = await this.redis.keys("*");
+
+    for (const coin_code of coin_code_list) {
+      const coin_count = await this.redis.get(coin_code);
+      if (coin_code || coin_count) {
+        await this.bitApi.marketSell(coin_code, Number(coin_count));
+      }
     }
   }
 }
