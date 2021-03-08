@@ -107,12 +107,27 @@ export default class BithumbBot {
   }
 
   public async buyRandomCoin(buy_price: number) {
+    let random_coin_code: string;
+    let loop_cnt = 0;
+
     const order_book = await this.bitApi.getOrderBook("all");
     delete order_book.data.timestamp;
     delete order_book.data.payment_currency;
 
     const coin_list = Object.keys(order_book.data);
-    const random_coin_code = coin_list[Math.floor(Math.random()*coin_list.length)];
+
+    while (true) {
+      if (loop_cnt >= 5) {
+        return false;
+      }
+      random_coin_code = coin_list[Math.floor(Math.random()*coin_list.length)];
+      const check_overlap = await this.redis.get(random_coin_code);
+      if (!check_overlap) {
+        break;
+      }
+      loop_cnt++;
+    }
+
 
     const buy_price_coin_count = await this.util.getBuyCoinCount(random_coin_code, buy_price);
     const buy_result = await this.bitApi.marketBuy(random_coin_code, buy_price_coin_count);
@@ -132,6 +147,7 @@ export default class BithumbBot {
       const coin_count = await this.redis.get(coin_code);
       if (coin_code || coin_count) {
         await this.bitApi.marketSell(coin_code, Number(coin_count));
+        await this.redis.del(coin_code);
       }
     }
   }
