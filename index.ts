@@ -11,7 +11,7 @@ cron.schedule("1 0 * * *", async () => {
 
 cron.schedule("2 0 * * *", async () => {
   const bitBot = new BithumbBot();
-  for (var i = 1; i <= 6; i++) {
+  for (var i = 1; i <= 7; i++) {
     await bitBot.buyRandomCoin(buy_price);
   } 
 })

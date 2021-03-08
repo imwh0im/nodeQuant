@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 
 interface IGetOrderBookData {
   timestamp: number;
