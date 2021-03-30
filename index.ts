@@ -1,20 +1,20 @@
 import cron from "node-cron";
 import BithumbBot from "./BotService/BithumbBot";
-import moment from "moment";
 
 const buy_price = 100000;
+const buy_coin_cnt = 9;
 
 cron.schedule("1 0 * * *", async () => {
   const bitBot = new BithumbBot();
   await bitBot.sellAllCoin();
-})
+});
 
 cron.schedule("2 0 * * *", async () => {
   const bitBot = new BithumbBot();
-  for (var i = 1; i <= 7; i++) {
+  for (var i = 1; i <= buy_coin_cnt; i++) {
     await bitBot.buyRandomCoin(buy_price);
-  } 
-})
+  }
+});
 
 // BTC 봉
 
