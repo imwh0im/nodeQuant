@@ -8,9 +8,14 @@ export default class UtilService {
 
   public getBitHumbHeaders(endpoint: string, parameters: any, api_key: string, secret_key: string) {
     const _nonce = this.nonce();
-    const request_signature = endpoint + String.fromCharCode(0) + querystring.stringify(parameters) + String.fromCharCode(0) + _nonce;
-    const hmac_signature = Buffer.from(crypto.createHmac('sha512', secret_key).update(request_signature).digest('hex')).toString('base64');
-  
+    console.log(querystring.stringify(parameters));
+    const request_signature = `${endpoint}${String.fromCharCode(0)}${querystring.stringify(parameters)}${String.fromCharCode(0)}${_nonce}`;
+    const hmac_signature = Buffer.from(
+      crypto.createHmac('sha512', secret_key)
+        .update(request_signature)
+        .digest('hex')
+    ).toString('base64');
+    console.log(request_signature);
     return {
       'Api-Key': api_key,
       'Api-Sign': hmac_signature,
