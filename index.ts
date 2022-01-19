@@ -1,5 +1,6 @@
 import cron from "node-cron";
 import BithumbBot from "./BotService/BithumbBot";
+import * as BithumbApi from 'node-bithumb';
 
 const buy_price = 100000;
 const buy_coin_cnt = 9;
