@@ -130,9 +130,10 @@ export default class bithumbApi {
   public async marketSell(coin_code: string, untit_price: number) {
     const Util = new UtilService();
     const endpoint = "/trade/market_sell";
-    const parameters = {units: untit_price, order_currency: coin_code, payment_currency: this.payment_currency, endpoint};
+    const parameters = {units: untit_price, order_currency: coin_code, payment_currency: this.payment_currency};
     const headers = Util.getBitHumbHeaders(endpoint, parameters, this.api_key, this.secret_key);
 
+    console.log(headers);
     let res: IMarketOrder;
     try{
       res = await request({
@@ -147,6 +148,7 @@ export default class bithumbApi {
     }
     
     if (res.status !== "0000") {
+      console.log(res);
       return false;
     }
     return true;

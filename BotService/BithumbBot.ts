@@ -1,9 +1,16 @@
+import ApiBithumb from "node-bithumb";
 import bithumbApi from "../ApiService/bithumb";
+import config from 'config';
 import UtilService from "../UtilService/utilService";
 import Redis from "ioredis";
 
 export default class BithumbBot {
-  private bitApi = new bithumbApi();
+  private readonly payment_currency = "KRW";  // 화폐단위
+  private readonly api_key: string = config.get("bithumb.api_key");
+  private readonly secret_key: string = config.get("bithumb.secret_key");
+
+  private ApiBithumb = new ApiBithumb(this.api_key, this.secret_key, this.payment_currency);
+  private AdApiBithumb = new bithumbApi();
   private util = new UtilService();
   private redis = new Redis({
     db: 0,
@@ -16,7 +23,7 @@ export default class BithumbBot {
     let last_low_price: number|undefined;
     let k: number|undefined;
 
-    const candle_sticks = await this.bitApi.getCandleStick(coin_code, time);
+    const candle_sticks = await this.AdApiBithumb.getCandleStick(coin_code, time);
     for (const chart of candle_sticks.data) {
       last_start_price = chart[1] as number;  // 시가
       last_last_price = chart[2] as number;  // 종가
@@ -31,7 +38,7 @@ export default class BithumbBot {
 
     const average = (last_high_price - last_low_price) * k;
     const goal_price = Number(last_last_price) + Number(average);
-    const transaction_historys = await this.bitApi.getTransactionHistory(coin_code);
+    const transaction_historys = await this.ApiBithumb.getTransactionHistory(coin_code);
     const transaction_history = transaction_historys.data.pop();
     const now_price = transaction_history ? transaction_history.price : last_last_price;
 
@@ -47,14 +54,14 @@ export default class BithumbBot {
     }
 
     const buy_price_coin_count = await this.util.getBuyCoinCount(coin_code, buy_price);
-    const balance = await this.bitApi.getBalance(coin_code);
+    const balance = await this.ApiBithumb.postBalance(coin_code);
     const has_coin_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
     // 이미 구매를 한 경우 구입하지 않는다. 
     if (has_coin_count+(has_coin_count*0.1) >= buy_price_coin_count) {
       return false;
     }
 
-    const buy_result = await this.bitApi.marketBuy(coin_code, buy_price_coin_count);
+    const buy_result = await this.AdApiBithumb.marketBuy(coin_code, buy_price_coin_count);
 
     console.log("buy_bot", JSON.stringify({
       coin_code: coin_code,
@@ -73,9 +80,9 @@ export default class BithumbBot {
   }
 
   public async volatilityBreakthroughsellAllCoin(coin_code: string) {
-    const balance = await this.bitApi.getBalance(coin_code);
+    const balance = await this.AdApiBithumb.getBalance(coin_code);
     const order_count = Math.floor(Number(balance.data[`total_${coin_code.toLowerCase()}`])*10000)/10000 || 0;
-    const result = await this.bitApi.marketSell(coin_code, order_count);
+    const result = await this.AdApiBithumb.marketSell(coin_code, order_count);
     console.log("SellAllCoin", JSON.stringify({
       coin_code: coin_code, 
       is_selled: result,
@@ -83,14 +90,14 @@ export default class BithumbBot {
   }
 
   public async volatilityBreakthroughStopLose(coin_code: string) {
-    const user_transactions = await this.bitApi.getPrivateTransactions(coin_code)
+    const user_transactions = await this.AdApiBithumb.getPrivateTransactions(coin_code)
     if (user_transactions.data.length === 0) {
       return;
     }
     const last_user_transaction = user_transactions.data[0];
     const last_user_transaction_price = Number(last_user_transaction.price) || 0;
 
-    const transactions = await this.bitApi.getTransactionHistory(coin_code);
+    const transactions = await this.AdApiBithumb.getTransactionHistory(coin_code);
     const last_transaction = transactions.data[0];
     const last_transaction_price = Number(last_transaction.price);
 
@@ -110,7 +117,7 @@ export default class BithumbBot {
     let random_coin_code: string;
     let loop_cnt = 0;
 
-    const order_book = await this.bitApi.getOrderBook("all");
+    const order_book = await this.AdApiBithumb.getOrderBook("all");
     delete order_book.data.timestamp;
     delete order_book.data.payment_currency;
 
@@ -130,7 +137,7 @@ export default class BithumbBot {
 
 
     const buy_price_coin_count = await this.util.getBuyCoinCount(random_coin_code, buy_price);
-    const buy_result = await this.bitApi.marketBuy(random_coin_code, buy_price_coin_count);
+    const buy_result = await this.AdApiBithumb.marketBuy(random_coin_code, buy_price_coin_count);
 
     await this.redis.set(random_coin_code, buy_price_coin_count);
 
@@ -146,7 +153,7 @@ export default class BithumbBot {
     for (const coin_code of coin_code_list) {
       const coin_count = await this.redis.get(coin_code);
       if (coin_code || coin_count) {
-        await this.bitApi.marketSell(coin_code, Number(coin_count));
+        await this.AdApiBithumb.marketSell(coin_code, Number(coin_count));
         await this.redis.del(coin_code);
       }
     }
